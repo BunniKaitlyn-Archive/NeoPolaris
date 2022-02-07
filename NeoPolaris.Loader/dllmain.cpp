@@ -12,7 +12,7 @@ int main() {
             if (pRuntimeInfo->GetInterface(CLSID_CLRRuntimeHost, IID_ICLRRuntimeHost, reinterpret_cast<LPVOID*>(&pRuntimeHost)) == S_OK) {
                 if (pRuntimeHost->Start() == S_OK) {
                     DWORD dwReturnValue;
-                    pRuntimeHost->ExecuteInDefaultAppDomain(L"C:\\Users\\Kaitlyn\\source\\repos\\NeoPolaris\\NeoPolaris\\bin\\Release\\Polaris.dll", L"NeoPolaris.Loader", L"HostedMain", L"", &dwReturnValue);
+                    pRuntimeHost->ExecuteInDefaultAppDomain(L"C:\\Users\\Kaitlyn\\Documents\\GitHub\\NeoPolaris\\NeoPolaris\\bin\\Release\\Polaris.dll", L"NeoPolaris.Loader", L"HostedMain", L"", &dwReturnValue);
                 }
             }
         }

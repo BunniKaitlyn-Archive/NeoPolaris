@@ -60,6 +60,9 @@ namespace NeoPolaris.Memory
             return ptr != IntPtr.Zero ? new T { BaseAddress = ptr } : null;
         }
 
+        public void WriteBytes(IntPtr address, int offset, byte[] bytes)
+            => WriteBuffer(address + offset, bytes);
+
         public void WriteInt8(IntPtr address, int offset, sbyte value)
             => WriteBuffer(address + offset, (byte) value);
         public void WriteUInt8(IntPtr address, int offset, byte value)

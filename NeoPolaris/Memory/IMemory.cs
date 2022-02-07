@@ -32,6 +32,8 @@ namespace NeoPolaris.Memory
 
         T ReadStruct<T>(IntPtr address, int offset, bool isPtr = true) where T : MemoryObject, new();
 
+        void WriteBytes(IntPtr address, int offset, byte[] bytes);
+
         void WriteInt8(IntPtr address, int offset, sbyte value);
         void WriteUInt8(IntPtr address, int offset, byte value);
 

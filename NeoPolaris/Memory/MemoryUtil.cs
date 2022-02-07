@@ -46,11 +46,11 @@ namespace NeoPolaris.Memory
             return func;
         }
 
-        public static T GetNativeFuncWithOffset<T>(IntPtr target) where T : Delegate
-            => GetNativeFunc<T>(GetAddressFromOffset(target));
+        public static T GetNativeFuncWithOffset<T>(IntPtr target, int p0 = 5, int p1 = 1) where T : Delegate
+            => GetNativeFunc<T>(GetAddressFromOffset(target, p0, p1));
         public static T GetNativeFuncFromPattern<T>(string pattern, string mask) where T : Delegate
             => GetNativeFunc<T>(FindPattern(pattern, mask));
-        public static T GetNativeFuncFromPatternWithOffset<T>(string pattern, string mask) where T : Delegate
-            => GetNativeFuncWithOffset<T>(FindPattern(pattern, mask));
+        public static T GetNativeFuncFromPatternWithOffset<T>(string pattern, string mask, int p0 = 5, int p1 = 1) where T : Delegate
+            => GetNativeFuncWithOffset<T>(FindPattern(pattern, mask), p0, p1);
     }
 }

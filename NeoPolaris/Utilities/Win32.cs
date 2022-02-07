@@ -45,6 +45,9 @@ namespace NeoPolaris.Utilities
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern bool ReadProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, IntPtr lpBuffer, int dwSize, out IntPtr lpNumberOfBytesRead);
 
+        [DllImport("kernel32.dll", EntryPoint = "RtlFillMemory", SetLastError = false)]
+        public static extern void RtlFillMemory(IntPtr destination, uint length, byte fill);
+
         public static T GetExport<T>(IntPtr handle, string name) where T : class
         {
             var ptr = GetProcAddress(handle, name);

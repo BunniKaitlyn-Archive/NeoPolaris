@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
+    <Compile Include="Fortnite\Classes\AFortPlayerController.cs" />
     <Compile Include="Fortnite\Classes\UFortEngine.cs" />
     <Compile Include="Loader.cs" />
     <Compile Include="Memory\IMemory.cs" />
@@ -50,11 +51,25 @@
     <Compile Include="Memory\MemoryObject.cs" />
     <Compile Include="Memory\MemoryUtil.cs" />
     <Compile Include="Unreal\Classes\AActor.cs" />
+    <Compile Include="Unreal\Classes\AController.cs" />
+    <Compile Include="Unreal\Classes\AGameMode.cs" />
+    <Compile Include="Unreal\Classes\AGameModeBase.cs" />
+    <Compile Include="Unreal\Classes\AInfo.cs" />
+    <Compile Include="Unreal\Classes\APawn.cs" />
+    <Compile Include="Unreal\Classes\APlayerController.cs" />
     <Compile Include="Unreal\Classes\UEngine.cs" />
     <Compile Include="Unreal\Classes\UGameEngine.cs" />
-    <Compile Include="Unreal\Enums\ESpawnActorCollisionHandlingMethod.cs" />
+    <Compile Include="Unreal\Classes\UGameInstance.cs" />
+    <Compile Include="Unreal\Classes\UGameViewportClient.cs" />
+    <Compile Include="Unreal\Classes\ULocalPlayer.cs" />
+    <Compile Include="Unreal\Classes\UPlayer.cs" />
+    <Compile Include="Unreal\Classes\UScriptViewportClient.cs" />
+    <Compile Include="Unreal\Classes\UWorld.cs" />
     <Compile Include="Unreal\Misc\UBlueprintFunctionLibrary.cs" />
     <Compile Include="Unreal\Misc\UGameplayStatics.cs" />
+    <Compile Include="Unreal\Structs\FRotator.cs" />
+    <Compile Include="Unreal\Structs\FVector.cs" />
+    <Compile Include="Unreal\Structs\TArray.cs" />
     <Compile Include="Utilities\MinHook.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Unreal\Classes\UClass.cs" />

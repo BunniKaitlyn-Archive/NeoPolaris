@@ -1,20 +1,29 @@
-﻿using NeoPolaris.Unreal.Classes;
-using NeoPolaris.Unreal.Enums;
+﻿using NeoPolaris.Memory;
+using NeoPolaris.Unreal.Classes;
+using NeoPolaris.Unreal.Structs;
+using NeoPolaris.Utilities;
+using System;
+using System.Runtime.InteropServices;
 
 namespace NeoPolaris.Unreal.Misc
 {
     internal class UGameplayStatics : UBlueprintFunctionLibrary
     {
-        private static UGameplayStatics _default;
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate IntPtr SpawnActorDelegate(IntPtr world, IntPtr clazz, IntPtr location, IntPtr rotation, IntPtr spawnParameters);
+        public static SpawnActorDelegate SpawnActor_;
 
         static UGameplayStatics()
         {
-            _default = (UGameplayStatics)App.Instance.Objects.FindObject("GameplayStatics Engine.Default__GameplayStatics");
+            SpawnActor_ = MemoryUtil.GetNativeFuncFromPatternWithOffset<SpawnActorDelegate>("\xE8\x00\x00\x00\x00\x0F\x10\x04\x3E", "x????xxxx");
         }
 
-        public static AActor BeginDeferredActorSpawnFromClass(UObject worldContextObject, UClass actorClass, ESpawnActorCollisionHandlingMethod collisionHandlingOverride, AActor owner)
+        public static T SpawnActor<T>(UClass clazz, FVector location, FRotator rotation) where T : AActor, new()
         {
-            return null;
+            var spawnParms = Marshal.AllocHGlobal(0x40);
+            Win32.RtlFillMemory(spawnParms, 0x40, 0);
+            var ptr = SpawnActor_(App.Instance.CurrentWorld.BaseAddress, clazz.BaseAddress, location.BaseAddress, rotation.BaseAddress, spawnParms);
+            return new T { BaseAddress = ptr };
         }
     }
 }
