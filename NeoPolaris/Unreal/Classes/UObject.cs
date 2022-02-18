@@ -9,7 +9,7 @@ namespace NeoPolaris.Unreal.Classes
     /// Represents an object in UE4.
     /// Read-only, because currently there is no point in crafting our own UObject.
     /// </summary>
-    internal class UObject : MemoryObject
+    public class UObject : MemoryObject
     {
         private static Dictionary<string, UObject> _cachedObjects = new();
         private static Dictionary<string, int> _cachedOffsets = new();
@@ -24,8 +24,45 @@ namespace NeoPolaris.Unreal.Classes
         public static implicit operator UObject(IntPtr baseAddress)
             => new UObject { BaseAddress = baseAddress };
 
-        public string GetName()
-            => Name.ToString();
+        public T Cast<T>() where T : UObject, new()
+            => new T { BaseAddress = this.BaseAddress };
+
+        public bool IsA(string name, bool isClass = false)
+        {
+            if (Class == null)
+                return false;
+
+            var clazz = isClass ? Cast<UClass>() : Class;
+            do
+            {
+                if (clazz == null)
+                    return false;
+                if (clazz.GetName() == name)
+                    return true;
+                if (clazz.SuperField == null)
+                    break;
+
+                clazz = clazz.SuperField.Cast<UClass>();
+            } while (clazz != null);
+
+            return false;
+        }
+
+        public bool IsA<T>(bool isClass = false)
+            => IsA(typeof(T).Name.TrimStart(new[] { 'F', 'A', 'U' }), isClass);
+
+        public string GetPrefix()
+        {
+            if (IsA("ScriptStruct"))
+                return "F";
+            if (IsA("Actor", true))
+                return "A";
+
+            return "U";
+        }
+
+        public string GetName(bool withPrefix = false)
+            => (withPrefix ? GetPrefix() : string.Empty) + Name.ToString();
 
         public string GetFullName()
         {
@@ -56,7 +93,7 @@ namespace NeoPolaris.Unreal.Classes
             return obj;
         }
 
-        public static T GetProperty<T>(IntPtr baseAddress, string fullName, bool isPtr = true) where T : MemoryObject, new()
+        public static T GetPropertyStruct<T>(IntPtr baseAddress, string fullName, bool isPtr = true) where T : MemoryObject, new()
         {
             if (!_cachedOffsets.TryGetValue(fullName, out var offset))
             {
@@ -85,12 +122,8 @@ namespace NeoPolaris.Unreal.Classes
                 else
                     return 0;
             }
-            Console.WriteLine($"{fullName} = {offset:X8}");
             return offset;
         }
-
-        public T Cast<T>() where T : UObject, new()
-            => new T { BaseAddress = this.BaseAddress };
 
         public override int ObjectSize => 0x28;
     }

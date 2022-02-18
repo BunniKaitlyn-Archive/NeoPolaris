@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace NeoPolaris.Unreal.Classes
 {
-    internal class AActor : UObject
+    public class AActor : UObject
     {
         public FRotator GetActorRotation()
         {

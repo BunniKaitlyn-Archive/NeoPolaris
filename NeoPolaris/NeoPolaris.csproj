@@ -25,6 +25,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <DocumentationFile>bin\Debug\Polaris.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -34,6 +35,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <DocumentationFile>bin\Release\Polaris.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -42,34 +44,63 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abilities\Classes\UAbilitySystemComponent.cs" />
+    <Compile Include="Abilities\Classes\UGameplayEffect.cs" />
+    <Compile Include="Abilities\Enums\EGameplayEffectDurationType.cs" />
+    <Compile Include="Abilities\Structs\FGameplayAbilitySpecDef.cs" />
+    <Compile Include="Abilities\Structs\FGameplayEffectContextHandle.cs" />
+    <Compile Include="Abilities\Structs\FActiveGameplayEffectHandle.cs" />
     <Compile Include="App.cs" />
+    <Compile Include="Fortnite\Classes\AFortPawn.cs" />
     <Compile Include="Fortnite\Classes\AFortPlayerController.cs" />
+    <Compile Include="Fortnite\Classes\UFortAbilitySet.cs" />
+    <Compile Include="Fortnite\Classes\UFortAbilitySystemComponent.cs" />
     <Compile Include="Fortnite\Classes\UFortEngine.cs" />
     <Compile Include="Loader.cs" />
     <Compile Include="Memory\IMemory.cs" />
     <Compile Include="Memory\InternalMemory.cs" />
     <Compile Include="Memory\MemoryObject.cs" />
     <Compile Include="Memory\MemoryUtil.cs" />
+    <Compile Include="Characters\AthenaCharacter.cs" />
+    <Compile Include="Characters\ICharacter.cs" />
+    <Compile Include="SDK\SdkClass.cs" />
+    <Compile Include="SDK\SdkBuilder.cs" />
+    <Compile Include="SDK\SdkGenerator.cs" />
+    <Compile Include="SDK\SdkProperty.cs" />
+    <Compile Include="Tasks\Classes\UGameplayTasksComponent.cs" />
     <Compile Include="Unreal\Classes\AActor.cs" />
+    <Compile Include="Unreal\Classes\ACharacter.cs" />
     <Compile Include="Unreal\Classes\AController.cs" />
     <Compile Include="Unreal\Classes\AGameMode.cs" />
     <Compile Include="Unreal\Classes\AGameModeBase.cs" />
     <Compile Include="Unreal\Classes\AInfo.cs" />
     <Compile Include="Unreal\Classes\APawn.cs" />
     <Compile Include="Unreal\Classes\APlayerController.cs" />
+    <Compile Include="Unreal\Classes\Properties.cs" />
+    <Compile Include="Unreal\Classes\UMeshComponent.cs" />
+    <Compile Include="Unreal\Classes\UActorComponent.cs" />
+    <Compile Include="Unreal\Classes\UDataAsset.cs" />
     <Compile Include="Unreal\Classes\UEngine.cs" />
     <Compile Include="Unreal\Classes\UGameEngine.cs" />
     <Compile Include="Unreal\Classes\UGameInstance.cs" />
     <Compile Include="Unreal\Classes\UGameViewportClient.cs" />
     <Compile Include="Unreal\Classes\ULocalPlayer.cs" />
     <Compile Include="Unreal\Classes\UPlayer.cs" />
+    <Compile Include="Unreal\Classes\UPrimaryDataAsset.cs" />
+    <Compile Include="Unreal\Classes\UPrimitiveComponent.cs" />
+    <Compile Include="Unreal\Classes\USceneComponent.cs" />
+    <Compile Include="Unreal\Classes\UScriptStruct.cs" />
     <Compile Include="Unreal\Classes\UScriptViewportClient.cs" />
+    <Compile Include="Unreal\Classes\USkeletalMesh.cs" />
+    <Compile Include="Unreal\Classes\USkeletalMeshComponent.cs" />
+    <Compile Include="Unreal\Classes\USkinnedMeshComponent.cs" />
     <Compile Include="Unreal\Classes\UWorld.cs" />
     <Compile Include="Unreal\Misc\UBlueprintFunctionLibrary.cs" />
     <Compile Include="Unreal\Misc\UGameplayStatics.cs" />
     <Compile Include="Unreal\Structs\FRotator.cs" />
     <Compile Include="Unreal\Structs\FVector.cs" />
     <Compile Include="Unreal\Structs\TArray.cs" />
+    <Compile Include="Utilities\IPlugin.cs" />
     <Compile Include="Utilities\MinHook.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Unreal\Classes\UClass.cs" />

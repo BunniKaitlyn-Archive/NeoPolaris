@@ -1,5 +1,5 @@
 ﻿namespace NeoPolaris.Unreal.Classes
 {
-    internal class UClass : UStruct
+    public class UClass : UStruct
     { }
 }

@@ -9,7 +9,7 @@ namespace NeoPolaris.Memory
     /// make Polaris a seperate executable and run it from there.
     /// And, no. I will not do it, do not bother asking me.
     /// </summary>
-    internal interface IMemory
+    public interface IMemory
     {
         Process Process { get; set; }
         IntPtr BaseAddress { get; set; }
@@ -25,8 +25,12 @@ namespace NeoPolaris.Memory
         int ReadInt32(IntPtr address, int offset);
         uint ReadUInt32(IntPtr address, int offset);
 
+        float ReadSingle(IntPtr address, int offset);
+
         long ReadInt64(IntPtr address, int offset);
         ulong ReadUInt64(IntPtr address, int offset);
+
+        double ReadDouble(IntPtr address, int offset);
 
         IntPtr ReadIntPtr(IntPtr address, int offset);
 
@@ -43,8 +47,12 @@ namespace NeoPolaris.Memory
         void WriteInt32(IntPtr address, int offset, int value);
         void WriteUInt32(IntPtr address, int offset, uint value);
 
+        void WriteSingle(IntPtr address, int offset, float value);
+
         void WriteInt64(IntPtr address, int offset, long value);
         void WriteUInt64(IntPtr address, int offset, ulong value);
+
+        void WriteDouble(IntPtr address, int offset, double value);
 
         void WriteIntPtr(IntPtr address, int offset, IntPtr value);
     }

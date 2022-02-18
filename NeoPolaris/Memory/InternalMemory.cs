@@ -7,7 +7,7 @@ namespace NeoPolaris.Memory
     /// <summary>
     /// Represents the internal memory of the current process.
     /// </summary>
-    internal class InternalMemory : IMemory
+    public class InternalMemory : IMemory
     {
         public Process Process { get; set; }
         public IntPtr BaseAddress { get; set; }
@@ -46,10 +46,17 @@ namespace NeoPolaris.Memory
         public uint ReadUInt32(IntPtr address, int offset)
             => BitConverter.ToUInt32(ReadBuffer(address + offset, 4), 0);
 
+
+        public float ReadSingle(IntPtr address, int offset)
+            => BitConverter.ToSingle(ReadBuffer(address + offset, 4), 0);
+
         public long ReadInt64(IntPtr address, int offset)
             => BitConverter.ToInt64(ReadBuffer(address + offset, 8), 0);
         public ulong ReadUInt64(IntPtr address, int offset)
             => BitConverter.ToUInt64(ReadBuffer(address + offset, 8), 0);
+
+        public double ReadDouble(IntPtr address, int offset)
+            => BitConverter.ToDouble(ReadBuffer(address + offset, 8), 0);
 
         public IntPtr ReadIntPtr(IntPtr address, int offset)
             => new(BitConverter.ToInt64(ReadBuffer(address + offset, IntPtr.Size), 0));
@@ -78,9 +85,15 @@ namespace NeoPolaris.Memory
         public void WriteUInt32(IntPtr address, int offset, uint value)
             => WriteBuffer(address + offset, BitConverter.GetBytes(value));
 
+        public void WriteSingle(IntPtr address, int offset, float value)
+            => WriteBuffer(address + offset, BitConverter.GetBytes(value));
+
         public void WriteInt64(IntPtr address, int offset, long value)
             => WriteBuffer(address + offset, BitConverter.GetBytes(value));
         public void WriteUInt64(IntPtr address, int offset, ulong value)
+            => WriteBuffer(address + offset, BitConverter.GetBytes(value));
+
+        public void WriteDouble(IntPtr address, int offset, double value)
             => WriteBuffer(address + offset, BitConverter.GetBytes(value));
 
         public void WriteIntPtr(IntPtr address, int offset, IntPtr value)

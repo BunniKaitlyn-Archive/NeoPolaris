@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace NeoPolaris.Utilities
 {
@@ -47,6 +48,9 @@ namespace NeoPolaris.Utilities
 
         [DllImport("kernel32.dll", EntryPoint = "RtlFillMemory", SetLastError = false)]
         public static extern void RtlFillMemory(IntPtr destination, uint length, byte fill);
+
+        [DllImport("user32.dll")]
+        public static extern short GetAsyncKeyState(Keys vKey);
 
         public static T GetExport<T>(IntPtr handle, string name) where T : class
         {

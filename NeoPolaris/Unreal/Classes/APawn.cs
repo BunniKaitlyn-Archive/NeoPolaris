@@ -1,5 +1,5 @@
 ﻿namespace NeoPolaris.Unreal.Classes
 {
-    internal class APawn : AActor
+    public class APawn : AActor
     { }
 }

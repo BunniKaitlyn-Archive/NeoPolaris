@@ -7,7 +7,7 @@ namespace NeoPolaris.Unreal.Structs
     /// <summary>
     /// Offsets should *usually* never change here.
     /// </summary>
-    internal class FName : MemoryObject
+    public class FName : MemoryObject
     {
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         public delegate void ToStringDelegate(IntPtr thisPtr, IntPtr value);

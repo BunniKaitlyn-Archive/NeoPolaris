@@ -28,24 +28,27 @@ namespace NeoPolaris.Unreal.Structs
         }
 
         public TArray()
-        {
-            ElementSize = IntPtr.Size;
-        }
+        { }
 
         public TArray(IntPtr baseAddress)
         {
             BaseAddress = baseAddress;
-            ElementSize = IntPtr.Size;
         }
 
-        public TArray(IntPtr baseAddress, int elementSize)
+        public TArray(IntPtr baseAddress, int elementSize, bool isPtr = true)
         {
             BaseAddress = baseAddress;
             ElementSize = elementSize;
+            IsPtr = isPtr;
         }
 
         public T GetElement(int index)
-            => new() { BaseAddress = Memory.ReadIntPtr(Data, index * ElementSize) };
+        {
+            if (IsPtr)
+                return new() { BaseAddress = Memory.ReadIntPtr(Data, index * ElementSize) };
+            else
+                return new() { BaseAddress = Data + (index * ElementSize) };
+        }
 
         public T this[int index] => GetElement(index);
 
@@ -57,7 +60,15 @@ namespace NeoPolaris.Unreal.Structs
             return elements.ToArray();
         }
 
-        public int ElementSize { get; }
+        public int ElementSize = IntPtr.Size;
+
+        public bool IsPtr = true;
+
+        public TArray<T> SetIsPtr(bool value)
+        {
+            IsPtr = value;
+            return this;
+        }
 
         public override int ObjectSize => ElementSize + 8;
     }

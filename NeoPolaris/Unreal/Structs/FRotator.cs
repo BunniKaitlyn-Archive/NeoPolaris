@@ -2,7 +2,7 @@
 
 namespace NeoPolaris.Unreal.Structs
 {
-    internal class FRotator : MemoryObject
+    public class FRotator : MemoryObject
     {
         public override int ObjectSize => 0xC;
     }
