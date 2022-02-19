@@ -7,7 +7,7 @@ namespace NeoPolaris.Memory
     /// <summary>
     /// Represents the internal memory of the current process.
     /// </summary>
-    public class InternalMemory : IMemory
+    internal class InternalMemory : IMemory
     {
         public Process Process { get; set; }
         public IntPtr BaseAddress { get; set; }

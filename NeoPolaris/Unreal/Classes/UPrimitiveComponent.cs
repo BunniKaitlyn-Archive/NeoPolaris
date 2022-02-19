@@ -1,5 +1,5 @@
 ﻿namespace NeoPolaris.Unreal.Classes
 {
-    public class UPrimitiveComponent : USceneComponent
+    internal class UPrimitiveComponent : USceneComponent
     { }
 }

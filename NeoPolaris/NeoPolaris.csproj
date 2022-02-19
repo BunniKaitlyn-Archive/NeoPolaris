@@ -59,6 +59,7 @@
     <Compile Include="Memory\IMemory.cs" />
     <Compile Include="Memory\InternalMemory.cs" />
     <Compile Include="Memory\MemoryObject.cs" />
+    <Compile Include="ObfuscationSettings.cs" />
     <Compile Include="Utilities\MemoryUtil.cs" />
     <Compile Include="SDK\Class.cs" />
     <Compile Include="SDK\CodeBuilder.cs" />

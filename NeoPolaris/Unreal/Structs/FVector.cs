@@ -2,7 +2,7 @@
 
 namespace NeoPolaris.Unreal.Structs
 {
-    public class FVector : MemoryObject
+    internal class FVector : MemoryObject
     {
         public float X
         {

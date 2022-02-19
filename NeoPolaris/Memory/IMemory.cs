@@ -9,7 +9,7 @@ namespace NeoPolaris.Memory
     /// make Polaris a seperate executable and run it from there.
     /// And, no. I will not do it, do not bother asking me.
     /// </summary>
-    public interface IMemory
+    internal interface IMemory
     {
         Process Process { get; set; }
         IntPtr BaseAddress { get; set; }

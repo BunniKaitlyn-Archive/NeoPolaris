@@ -6,7 +6,7 @@ namespace NeoPolaris.Memory
     /// It's like <see cref="System.Object"/> but for raw memory.
     /// What more do you need to know? :')
     /// </summary>
-    public abstract class MemoryObject
+    internal abstract class MemoryObject
     {
         public IMemory Memory => App.Instance.Memory;
 

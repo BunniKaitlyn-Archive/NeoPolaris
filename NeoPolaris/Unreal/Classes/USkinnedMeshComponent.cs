@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace NeoPolaris.Unreal.Classes
 {
-    public class USkinnedMeshComponent : UMeshComponent
+    internal class USkinnedMeshComponent : UMeshComponent
     {
         public void SetSkeletalMesh(USkeletalMesh newMesh, bool bReinitPose)
         {

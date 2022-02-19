@@ -1,5 +1,5 @@
 ﻿namespace NeoPolaris.Unreal.Classes
 {
-    public class USkeletalMesh : UObject
+    internal class USkeletalMesh : UObject
     { }
 }

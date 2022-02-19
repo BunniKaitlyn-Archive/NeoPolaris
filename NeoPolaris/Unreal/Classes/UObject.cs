@@ -10,7 +10,7 @@ namespace NeoPolaris.Unreal.Classes
     /// Represents an object in UE4.
     /// Read-only, because currently there is no point in crafting our own UObject.
     /// </summary>
-    public class UObject : MemoryObject
+    internal class UObject : MemoryObject
     {
         private static Dictionary<string, UObject> _cachedObjects = new();
         private static Dictionary<string, int> _cachedOffsets = new();

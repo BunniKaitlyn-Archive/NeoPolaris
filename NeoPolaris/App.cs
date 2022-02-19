@@ -9,6 +9,7 @@ using NeoPolaris.Fortnite.Classes;
 using NeoPolaris.Unreal.Misc;
 using NeoPolaris.Unreal.Structs;
 using NeoPolaris.Natives;
+using System.Reflection;
 
 namespace NeoPolaris
 {
@@ -82,6 +83,36 @@ namespace NeoPolaris
 
         #endregion
 
+        [Obfuscation(Feature = "virtualization", Exclude = false)]
+        public void SpawnPlayer()
+        {
+            var pawn = UGameplayStatics.SpawnActor<AFortPawn>(CurrentPawnClass, CurrentPlayerController.GetActorLocation(), CurrentPlayerController.GetActorRotation());
+            pawn.Mesh.SetSkeletalMesh(CurrentSkeletalMesh, true);
+
+            CurrentPlayerController.Possess(pawn);
+
+            for (var i = 0; i < CurrentAbilitySet.GameplayAbilities.Count; i++)
+                pawn.AbilitySystemComponent.ApplyGameplayAbilityToSelf(CurrentAbilitySet.GameplayAbilities[i]);
+        }
+
+        [Obfuscation(Feature = "virtualization", Exclude = false)]
+        public void StartMatch()
+        {
+            CurrentPawnClass = Objects.FindObject<UClass>("BlueprintGeneratedClass /Game/Athena/PlayerPawn_Athena.PlayerPawn_Athena_C");
+
+            FindOrLoadObject("/Game/Athena/Items/Consumables/PurpleStuff/GE_Athena_PurpleStuff.GE_Athena_PurpleStuff_C");
+
+            CurrentSkeletalMesh = Objects.FindObject<USkeletalMesh>("SkeletalMesh /Game/Characters/Survivors/Female/Small/F_SML_Starter_01/Meshes/F_SML_Starter_Epic.F_SML_Starter_Epic");
+            CurrentAbilitySet = Objects.FindObject<UFortAbilitySet>("FortAbilitySet /Game/Abilities/Player/Generic/Traits/DefaultPlayer/GAS_DefaultPlayer.GAS_DefaultPlayer");
+
+            Initialized = true;
+            
+            SpawnPlayer();
+            
+            CurrentPlayerController.Cast<AFortPlayerController>().ServerReadyToStartMatch();
+            CurrentWorld.AuthorityGameMode.Cast<AGameMode>().StartMatch();
+        }
+
         private static void ProcessEventHook(IntPtr thisPtr, IntPtr func, IntPtr parms)
         {
             if (thisPtr != IntPtr.Zero && func != IntPtr.Zero)
@@ -111,36 +142,10 @@ namespace NeoPolaris
                                 Console.WriteLine($"PlayerController = {Instance.CurrentPlayerController.GetFullName()}");
                             }
 
-                            Instance.CurrentPawnClass = Instance.Objects.FindObject<UClass>("BlueprintGeneratedClass /Game/Athena/PlayerPawn_Athena.PlayerPawn_Athena_C");
-
-                            FindOrLoadObject("/Game/Athena/Items/Consumables/PurpleStuff/GE_Athena_PurpleStuff.GE_Athena_PurpleStuff_C");
-
-                            Instance.CurrentSkeletalMesh = Instance.Objects.FindObject<USkeletalMesh>("SkeletalMesh /Game/Characters/Survivors/Female/Small/F_SML_Starter_01/Meshes/F_SML_Starter_Epic.F_SML_Starter_Epic");
-                            Instance.CurrentAbilitySet = Instance.Objects.FindObject<UFortAbilitySet>("FortAbilitySet /Game/Abilities/Player/Generic/Traits/DefaultPlayer/GAS_DefaultPlayer.GAS_DefaultPlayer");
-
-                            Instance.Initialized = true;
-
-                            var pawn = UGameplayStatics.SpawnActor<AFortPawn>(Instance.CurrentPawnClass, Instance.CurrentPlayerController.GetActorLocation(), Instance.CurrentPlayerController.GetActorRotation());
-                            pawn.Mesh.SetSkeletalMesh(Instance.CurrentSkeletalMesh, true);
-                            
-                            Instance.CurrentPlayerController.Possess(pawn);
-
-                            Instance.CurrentPlayerController.Cast<AFortPlayerController>().ServerReadyToStartMatch();
-                            Instance.CurrentWorld.AuthorityGameMode.Cast<AGameMode>().StartMatch();
-
-                            for (var i = 0; i < Instance.CurrentAbilitySet.GameplayAbilities.Count; i++)
-                                pawn.AbilitySystemComponent.ApplyGameplayAbilityToSelf(Instance.CurrentAbilitySet.GameplayAbilities[i]);
+                            Instance.StartMatch();
                         }
                         if (Instance.Initialized && funcName.Contains("ServerAttemptAircraftJump"))
-                        {
-                            var pawn = UGameplayStatics.SpawnActor<AFortPawn>(Instance.CurrentPawnClass, Instance.CurrentPlayerController.GetActorLocation(), Instance.CurrentPlayerController.GetActorRotation());
-                            pawn.Mesh.SetSkeletalMesh(Instance.CurrentSkeletalMesh, true);
-
-                            Instance.CurrentPlayerController.Possess(pawn);
-
-                            for (var i = 0; i < Instance.CurrentAbilitySet.GameplayAbilities.Count; i++)
-                                pawn.AbilitySystemComponent.ApplyGameplayAbilityToSelf(Instance.CurrentAbilitySet.GameplayAbilities[i]);
-                        }
+                            Instance.SpawnPlayer();
                         break;
                 }
             }
