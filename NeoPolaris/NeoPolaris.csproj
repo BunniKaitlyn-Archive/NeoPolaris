@@ -52,6 +52,7 @@
     <Compile Include="App.cs" />
     <Compile Include="Fortnite\Classes\AFortPawn.cs" />
     <Compile Include="Fortnite\Classes\AFortPlayerController.cs" />
+    <Compile Include="Fortnite\Classes\AFortQuickBars.cs" />
     <Compile Include="Fortnite\Classes\UFortAbilitySet.cs" />
     <Compile Include="Fortnite\Classes\UFortAbilitySystemComponent.cs" />
     <Compile Include="Fortnite\Classes\UFortEngine.cs" />

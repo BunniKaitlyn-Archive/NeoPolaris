@@ -1,4 +1,5 @@
 ﻿using NeoPolaris.Memory;
+using System.Runtime.InteropServices;
 
 namespace NeoPolaris.Unreal.Structs
 {
@@ -20,6 +21,11 @@ namespace NeoPolaris.Unreal.Structs
         {
             get => Memory.ReadSingle(BaseAddress, 8);
             set => Memory.WriteSingle(BaseAddress, 8, value);
+        }
+
+        public FVector()
+        {
+            BaseAddress = Marshal.AllocHGlobal(ObjectSize);
         }
 
         public override int ObjectSize => 0xC;

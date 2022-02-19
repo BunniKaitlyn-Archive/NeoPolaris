@@ -86,7 +86,10 @@ namespace NeoPolaris
         [Obfuscation(Feature = "virtualization", Exclude = false)]
         public void SpawnPlayer()
         {
-            var pawn = UGameplayStatics.SpawnActor<AFortPawn>(CurrentPawnClass, CurrentPlayerController.GetActorLocation(), CurrentPlayerController.GetActorRotation());
+            var rotation = CurrentPlayerController.GetActorRotation();
+            rotation.Pitch = 1;
+
+            var pawn = UGameplayStatics.SpawnActor<AFortPawn>(CurrentPawnClass, CurrentPlayerController.GetActorLocation(), rotation);
             pawn.Mesh.SetSkeletalMesh(CurrentSkeletalMesh, true);
 
             CurrentPlayerController.Possess(pawn);
@@ -106,9 +109,11 @@ namespace NeoPolaris
             CurrentAbilitySet = Objects.FindObject<UFortAbilitySet>("FortAbilitySet /Game/Abilities/Player/Generic/Traits/DefaultPlayer/GAS_DefaultPlayer.GAS_DefaultPlayer");
 
             Initialized = true;
-            
+
+            CurrentPlayerController.Cast<AFortPlayerController>().QuickBars = UGameplayStatics.SpawnActor<AFortQuickBars>(Objects.FindObject<UClass>("Class /Script/FortniteGame.FortQuickBars"), new(), new());
+
             SpawnPlayer();
-            
+
             CurrentPlayerController.Cast<AFortPlayerController>().ServerReadyToStartMatch();
             CurrentWorld.AuthorityGameMode.Cast<AGameMode>().StartMatch();
         }
