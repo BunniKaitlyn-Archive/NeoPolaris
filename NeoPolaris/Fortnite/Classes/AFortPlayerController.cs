@@ -17,7 +17,7 @@ namespace NeoPolaris.Fortnite.Classes
 
         public void ServerReadyToStartMatch()
         {
-            var func = FindObject<UObject>("Function /Script/FortniteGame.FortPlayerController.ServerReadyToStartMatch");
+            var func = FindObject("Function /Script/FortniteGame.FortPlayerController.ServerReadyToStartMatch");
             App.ProcessEvent(BaseAddress, func.BaseAddress, IntPtr.Zero);
         }
     }

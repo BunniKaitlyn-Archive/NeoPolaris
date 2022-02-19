@@ -7,7 +7,7 @@ namespace NeoPolaris.Unreal.Classes
     {
         public FRotator GetActorRotation()
         {
-            var func = FindObject<UObject>("Function /Script/Engine.Actor.K2_GetActorRotation");
+            var func = FindObject("Function /Script/Engine.Actor.K2_GetActorRotation");
             var ptr = Marshal.AllocHGlobal(0xC);
             App.ProcessEvent(BaseAddress, func.BaseAddress, ptr);
             return new FRotator { BaseAddress = ptr };
@@ -15,7 +15,7 @@ namespace NeoPolaris.Unreal.Classes
 
         public FVector GetActorLocation()
         {
-            var func = FindObject<UObject>("Function /Script/Engine.Actor.K2_GetActorLocation");
+            var func = FindObject("Function /Script/Engine.Actor.K2_GetActorLocation");
             var ptr = Marshal.AllocHGlobal(0xC);
             App.ProcessEvent(BaseAddress, func.BaseAddress, ptr);
             return new FVector { BaseAddress = ptr };

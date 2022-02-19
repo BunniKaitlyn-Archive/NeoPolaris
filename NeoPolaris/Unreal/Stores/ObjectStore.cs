@@ -49,6 +49,9 @@ namespace NeoPolaris.Unreal.Stores
             return obj.Cast<T>();
         }
 
+        public UObject FindObject(string fullName)
+            => FindObject<UObject>(fullName);
+
         public int GetProperty(string fullName)
         {
             if (!_cachedOffsets.TryGetValue(fullName, out var offset))

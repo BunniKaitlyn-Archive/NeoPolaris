@@ -86,6 +86,9 @@ namespace NeoPolaris.Unreal.Classes
         public T FindObject<T>(string fullName) where T : UObject, new()
             => App.Instance.Objects.FindObject<T>(fullName);
 
+        public UObject FindObject(string fullName)
+            => App.Instance.Objects.FindObject(fullName);
+
         public int GetProperty(string fullName)
             => App.Instance.Objects.GetProperty(fullName);
 
