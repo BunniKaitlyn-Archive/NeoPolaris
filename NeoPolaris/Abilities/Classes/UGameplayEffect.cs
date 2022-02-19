@@ -13,6 +13,6 @@ namespace NeoPolaris.Abilities.Classes
             set => Memory.WriteUInt8(BaseAddress, 0x30, (byte) value);
         }
 
-        public TArray<FGameplayAbilitySpecDef> GrantedAbilities => GetPropertyStruct<TArray<FGameplayAbilitySpecDef>>(BaseAddress, "ArrayProperty /Script/GameplayAbilities.GameplayEffect.GrantedAbilities", false).SetIsPtr(false);
+        public TArray<FGameplayAbilitySpecDef> GrantedAbilities => GetProperty<TArray<FGameplayAbilitySpecDef>>("ArrayProperty /Script/GameplayAbilities.GameplayEffect.GrantedAbilities", false).SetIsPtr(false);
     }
 }

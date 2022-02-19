@@ -14,7 +14,7 @@ namespace NeoPolaris.Abilities.Classes
 
         public FActiveGameplayEffectHandle BP_ApplyGameplayEffectToSelf(UClass gameplayEffectClass, float level)
         {
-            var func = GetFunction("Function /Script/GameplayAbilities.AbilitySystemComponent.BP_ApplyGameplayEffectToSelf");
+            var func = FindObject<UObject>("Function /Script/GameplayAbilities.AbilitySystemComponent.BP_ApplyGameplayEffectToSelf");
             var ptr = Marshal.AllocHGlobal(0x50);
             Win32.RtlFillMemory(ptr, 0x50, 0);
             Memory.WriteIntPtr(ptr, 0, gameplayEffectClass.BaseAddress);

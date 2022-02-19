@@ -7,17 +7,17 @@ namespace NeoPolaris.Fortnite.Classes
     {
         public AFortQuickBars QuickBars
         {
-            get => GetPropertyStruct<AFortQuickBars>(BaseAddress, "ObjectProperty /Script/FortniteGame.FortPlayerController.QuickBars");
+            get => GetProperty<AFortQuickBars>("ObjectProperty /Script/FortniteGame.FortPlayerController.QuickBars");
             set
             {
-                var offset = GetPropertyOffset("ObjectProperty /Script/FortniteGame.FortPlayerController.QuickBars");
+                var offset = GetProperty("ObjectProperty /Script/FortniteGame.FortPlayerController.QuickBars");
                 WriteIntPtr(offset, value.BaseAddress);
             }
         }
 
         public void ServerReadyToStartMatch()
         {
-            var func = GetFunction("Function /Script/FortniteGame.FortPlayerController.ServerReadyToStartMatch");
+            var func = FindObject<UObject>("Function /Script/FortniteGame.FortPlayerController.ServerReadyToStartMatch");
             App.ProcessEvent(BaseAddress, func.BaseAddress, IntPtr.Zero);
         }
     }

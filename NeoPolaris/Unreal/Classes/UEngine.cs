@@ -2,6 +2,6 @@
 {
     internal class UEngine : UObject
     {
-        public UGameViewportClient GameViewport => GetPropertyStruct<UGameViewportClient>(BaseAddress, "ObjectProperty /Script/Engine.Engine.GameViewport");
+        public UGameViewportClient GameViewport => GetProperty<UGameViewportClient>("ObjectProperty /Script/Engine.Engine.GameViewport");
     }
 }

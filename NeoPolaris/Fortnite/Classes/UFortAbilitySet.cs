@@ -5,6 +5,6 @@ namespace NeoPolaris.Fortnite.Classes
 {
     internal class UFortAbilitySet : UPrimaryDataAsset
     {
-        public TArray<UClass> GameplayAbilities => GetPropertyStruct<TArray<UClass>>(BaseAddress, "ArrayProperty /Script/FortniteGame.FortAbilitySet.GameplayAbilities", false);
+        public TArray<UClass> GameplayAbilities => GetProperty<TArray<UClass>>("ArrayProperty /Script/FortniteGame.FortAbilitySet.GameplayAbilities", false);
     }
 }

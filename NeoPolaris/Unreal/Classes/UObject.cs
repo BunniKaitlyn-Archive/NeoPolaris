@@ -12,9 +12,6 @@ namespace NeoPolaris.Unreal.Classes
     /// </summary>
     internal class UObject : MemoryObject
     {
-        private static Dictionary<string, UObject> _cachedObjects = new();
-        private static Dictionary<string, int> _cachedOffsets = new();
-
         public ObjectStore Objects => App.Instance.Objects;
 
         public IntPtr VTable => ReadIntPtr(0);
@@ -86,47 +83,14 @@ namespace NeoPolaris.Unreal.Classes
             return name;
         }
 
-        public static UObject GetFunction(string fullName)
-        {
-            if (!_cachedObjects.TryGetValue(fullName, out var obj))
-            {
-                obj = App.Instance.Objects.FindObject<UObject>(fullName);
-                _cachedObjects[fullName] = obj;
-            }
-            return obj;
-        }
+        public T FindObject<T>(string fullName) where T : UObject, new()
+            => App.Instance.Objects.FindObject<T>(fullName);
 
-        public static T GetPropertyStruct<T>(IntPtr baseAddress, string fullName, bool isPtr = true) where T : MemoryObject, new()
-        {
-            if (!_cachedOffsets.TryGetValue(fullName, out var offset))
-            {
-                var property = App.Instance.Objects.FindObject<UProperty>(fullName);
-                if (property != null)
-                {
-                    offset = property.Offset;
-                    _cachedOffsets[fullName] = offset;
-                }
-                else
-                    return null;
-            }
-            return new T { BaseAddress = isPtr ? App.Instance.Memory.ReadIntPtr(baseAddress, offset) : (baseAddress + offset) };
-        }
+        public int GetProperty(string fullName)
+            => App.Instance.Objects.GetProperty(fullName);
 
-        public static int GetPropertyOffset(string fullName)
-        {
-            if (!_cachedOffsets.TryGetValue(fullName, out var offset))
-            {
-                var property = App.Instance.Objects.FindObject<UProperty>(fullName);
-                if (property != null)
-                {
-                    offset = property.Offset;
-                    _cachedOffsets[fullName] = offset;
-                }
-                else
-                    return 0;
-            }
-            return offset;
-        }
+        public T GetProperty<T>(string fullName, bool isPtr = true) where T : MemoryObject, new()
+            => App.Instance.Objects.GetProperty<T>(BaseAddress, fullName, isPtr);
 
         public override int ObjectSize => 0x28;
     }

@@ -2,6 +2,6 @@
 {
     internal class UWorld : UObject
     {
-        public AGameModeBase AuthorityGameMode => GetPropertyStruct<AGameModeBase>(BaseAddress, "ObjectProperty /Script/Engine.World.AuthorityGameMode");
+        public AGameModeBase AuthorityGameMode => GetProperty<AGameModeBase>("ObjectProperty /Script/Engine.World.AuthorityGameMode");
     }
 }

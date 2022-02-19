@@ -4,6 +4,6 @@ namespace NeoPolaris.Fortnite.Classes
 {
     internal class AFortPawn : ACharacter
     {
-        public UFortAbilitySystemComponent AbilitySystemComponent => GetPropertyStruct<UFortAbilitySystemComponent>(BaseAddress, "ObjectProperty /Script/FortniteGame.FortPawn.AbilitySystemComponent");
+        public UFortAbilitySystemComponent AbilitySystemComponent => GetProperty<UFortAbilitySystemComponent>("ObjectProperty /Script/FortniteGame.FortPawn.AbilitySystemComponent");
     }
 }

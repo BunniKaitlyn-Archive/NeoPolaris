@@ -6,7 +6,7 @@ namespace NeoPolaris.Unreal.Classes
     {
         public void SwitchLevel(string url)
         {
-            var func = GetFunction("Function /Script/Engine.PlayerController.SwitchLevel");
+            var func = FindObject<UObject>("Function /Script/Engine.PlayerController.SwitchLevel");
             App.ProcessEvent(BaseAddress, func.BaseAddress, new FString(url).BaseAddress);
         }
     }

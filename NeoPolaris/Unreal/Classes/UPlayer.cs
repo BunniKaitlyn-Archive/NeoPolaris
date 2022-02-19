@@ -2,6 +2,6 @@
 {
     internal class UPlayer : UObject
     {
-        public APlayerController PlayerController => GetPropertyStruct<APlayerController>(BaseAddress, "ObjectProperty /Script/Engine.Player.PlayerController");
+        public APlayerController PlayerController => GetProperty<APlayerController>("ObjectProperty /Script/Engine.Player.PlayerController");
     }
 }
