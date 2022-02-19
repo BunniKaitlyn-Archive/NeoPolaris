@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace NeoPolaris.Unreal.Classes
 {
-    internal class AController : AActor
+    public class AController : AActor
     {
         public void Possess(APawn inPawn)
         {

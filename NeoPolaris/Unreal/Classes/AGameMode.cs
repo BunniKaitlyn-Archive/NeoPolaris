@@ -2,7 +2,7 @@
 
 namespace NeoPolaris.Unreal.Classes
 {
-    internal class AGameMode : AGameModeBase
+    public class AGameMode : AGameModeBase
     {
         public void StartMatch()
         {
