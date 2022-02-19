@@ -48,7 +48,6 @@
     <Compile Include="Abilities\Classes\UGameplayEffect.cs" />
     <Compile Include="Abilities\Enums\EGameplayEffectDurationType.cs" />
     <Compile Include="Abilities\Structs\FGameplayAbilitySpecDef.cs" />
-    <Compile Include="Abilities\Structs\FGameplayEffectContextHandle.cs" />
     <Compile Include="Abilities\Structs\FActiveGameplayEffectHandle.cs" />
     <Compile Include="App.cs" />
     <Compile Include="Fortnite\Classes\AFortPawn.cs" />
@@ -60,13 +59,11 @@
     <Compile Include="Memory\IMemory.cs" />
     <Compile Include="Memory\InternalMemory.cs" />
     <Compile Include="Memory\MemoryObject.cs" />
-    <Compile Include="Memory\MemoryUtil.cs" />
-    <Compile Include="Characters\AthenaCharacter.cs" />
-    <Compile Include="Characters\ICharacter.cs" />
-    <Compile Include="SDK\SdkClass.cs" />
-    <Compile Include="SDK\SdkBuilder.cs" />
-    <Compile Include="SDK\SdkGenerator.cs" />
-    <Compile Include="SDK\SdkProperty.cs" />
+    <Compile Include="Utilities\MemoryUtil.cs" />
+    <Compile Include="SDK\Class.cs" />
+    <Compile Include="SDK\CodeBuilder.cs" />
+    <Compile Include="SDK\Generator.cs" />
+    <Compile Include="SDK\Property.cs" />
     <Compile Include="Tasks\Classes\UGameplayTasksComponent.cs" />
     <Compile Include="Unreal\Classes\AActor.cs" />
     <Compile Include="Unreal\Classes\ACharacter.cs" />
@@ -76,7 +73,7 @@
     <Compile Include="Unreal\Classes\AInfo.cs" />
     <Compile Include="Unreal\Classes\APawn.cs" />
     <Compile Include="Unreal\Classes\APlayerController.cs" />
-    <Compile Include="Unreal\Classes\Properties.cs" />
+    <Compile Include="Unreal\Properties.cs" />
     <Compile Include="Unreal\Classes\UMeshComponent.cs" />
     <Compile Include="Unreal\Classes\UActorComponent.cs" />
     <Compile Include="Unreal\Classes\UDataAsset.cs" />
@@ -101,7 +98,7 @@
     <Compile Include="Unreal\Structs\FVector.cs" />
     <Compile Include="Unreal\Structs\TArray.cs" />
     <Compile Include="Utilities\IPlugin.cs" />
-    <Compile Include="Utilities\MinHook.cs" />
+    <Compile Include="Natives\MinHook.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Unreal\Classes\UClass.cs" />
     <Compile Include="Unreal\Classes\UProperty.cs" />
@@ -111,7 +108,7 @@
     <Compile Include="Unreal\Stores\ObjectStore.cs" />
     <Compile Include="Unreal\Structs\FName.cs" />
     <Compile Include="Unreal\Structs\FString.cs" />
-    <Compile Include="Utilities\DelegateStore.cs" />
+    <Compile Include="Stores\DelegateStore.cs" />
     <Compile Include="Utilities\ResourceUtil.cs" />
     <Compile Include="Utilities\Win32.cs" />
   </ItemGroup>

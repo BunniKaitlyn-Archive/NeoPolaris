@@ -9,7 +9,7 @@ namespace NeoPolaris.Unreal.Classes
         {
             var func = GetFunction("Function /Script/Engine.Actor.K2_GetActorRotation");
             var ptr = Marshal.AllocHGlobal(0xC);
-            App.Instance.Memory.WriteIntPtr(ptr, 0, ptr);
+            App.ProcessEvent(BaseAddress, func.BaseAddress, ptr);
             return new FRotator { BaseAddress = ptr };
         }
 

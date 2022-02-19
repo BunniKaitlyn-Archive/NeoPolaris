@@ -1,13 +1,9 @@
 ﻿using NeoPolaris.Unreal.Classes;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NeoPolaris.SDK
 {
-    internal class SdkClass
+    internal class Class
     {
         public List<string> UsedNamespaces { get; } = new();
 
@@ -18,7 +14,7 @@ namespace NeoPolaris.SDK
 
         public int ClassSize { get; set; }
 
-        public Dictionary<string, SdkProperty> Properties { get; } = new();
+        public Dictionary<string, SDK.Property> Properties { get; } = new();
 
         public void AddProperty(UProperty property, string className = null, string name = null)
         {
@@ -28,7 +24,7 @@ namespace NeoPolaris.SDK
                 name = property.GetName();
 
             var isSupported = true;
-            var sdkProperty = new SdkProperty
+            var sdkProperty = new SDK.Property
             {
                 Name = name,
                 Type = className,
@@ -49,7 +45,7 @@ namespace NeoPolaris.SDK
                 Properties.Add(name, sdkProperty);
         }
 
-        public void WriteSummary(SdkBuilder builder)
+        public void WriteSummary(CodeBuilder builder)
         {
             builder.SetClassIndent();
             builder.AppendLine("/// <summary>");
@@ -58,7 +54,7 @@ namespace NeoPolaris.SDK
             builder.AppendLine("/// </summary>");
         }
 
-        public void WriteClass(SdkBuilder builder)
+        public void WriteClass(CodeBuilder builder)
         {
             builder.SetClassIndent();
 

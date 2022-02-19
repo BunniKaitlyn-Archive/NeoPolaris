@@ -1,4 +1,5 @@
 ﻿using NeoPolaris.Memory;
+using NeoPolaris.Utilities;
 using System;
 using System.Runtime.InteropServices;
 

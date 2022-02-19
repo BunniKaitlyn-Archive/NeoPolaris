@@ -4,7 +4,7 @@ using System;
 
 namespace NeoPolaris.Unreal.Stores
 {
-    internal class ObjectStore : MemoryObject
+    public class ObjectStore : MemoryObject
     {
         public IntPtr Data => ReadIntPtr(0x10);
         public int Count => ReadInt32(0x1C);

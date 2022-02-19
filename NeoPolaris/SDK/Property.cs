@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NeoPolaris.SDK
+﻿namespace NeoPolaris.SDK
 {
-    internal class SdkProperty
+    internal class Property
     {
         public string Name { get; set; }
         public string Type { get; set; }
         public int Offset { get; set; }
         public int ElementSize { get; set; }
 
-        private void WriteSummary(SdkBuilder builder)
+        private void WriteSummary(CodeBuilder builder)
         {
             builder.AppendLine("/// <summary>");
             builder.AppendLine($"/// Name: {Name}");
@@ -23,7 +17,7 @@ namespace NeoPolaris.SDK
             builder.AppendLine("/// </summary>");
         }
 
-        private void WriteGetSet(SdkBuilder builder, string type, string readType, int offset)
+        private void WriteGetSet(CodeBuilder builder, string type, string readType, int offset)
         {
             builder.SetPropertyIndent();
             builder.AppendLine($"public {type} {Name}");

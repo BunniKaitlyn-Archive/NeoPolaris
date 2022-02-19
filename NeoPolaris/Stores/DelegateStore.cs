@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace NeoPolaris.Utilities
+namespace NeoPolaris.Stores
 {
     /// <summary>
     /// Prevents the .NET GC from stealing our (native) delegates.

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NeoPolaris.Unreal.Classes
+﻿namespace NeoPolaris.Unreal.Classes
 {
     internal class UProperty : UField
     {

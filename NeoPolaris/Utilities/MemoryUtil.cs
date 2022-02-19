@@ -1,9 +1,9 @@
-﻿using NeoPolaris.Utilities;
+﻿using NeoPolaris.Stores;
 using System;
 using System.Runtime.InteropServices;
 using static NeoPolaris.Utilities.Win32;
 
-namespace NeoPolaris.Memory
+namespace NeoPolaris.Utilities
 {
     internal static class MemoryUtil
     {

@@ -1,8 +1,9 @@
-﻿using System;
+﻿using NeoPolaris.Stores;
+using System;
 using System.Runtime.InteropServices;
 using static NeoPolaris.Utilities.Win32;
 
-namespace NeoPolaris.Utilities
+namespace NeoPolaris.Natives
 {
     internal static class MinHook
     {

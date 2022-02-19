@@ -1,6 +1,6 @@
 ﻿namespace NeoPolaris.Abilities.Enums
 {
-    internal enum EGameplayEffectDurationType
+    internal enum EGameplayEffectDurationType : byte
     {
         Instant = 0,
         Infinite = 1,

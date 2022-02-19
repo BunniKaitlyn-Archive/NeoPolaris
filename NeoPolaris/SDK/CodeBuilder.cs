@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace NeoPolaris.SDK
 {
-    internal class SdkBuilder
+    internal class CodeBuilder
     {
         public StringBuilder Builder { get; } = new();
 

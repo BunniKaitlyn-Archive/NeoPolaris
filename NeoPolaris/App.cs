@@ -7,18 +7,20 @@ using System.IO;
 using System.Runtime.InteropServices;
 using NeoPolaris.Fortnite.Classes;
 using NeoPolaris.Unreal.Misc;
-using NeoPolaris.Abilities.Classes;
 using NeoPolaris.Unreal.Structs;
-using NeoPolaris.SDK;
+using NeoPolaris.Natives;
 
 namespace NeoPolaris
 {
     internal class App
     {
-        #region "Singleton"
+        #region "Singletons"
 
         private static App _instance;
-        public static App Instance => _instance ?? (_instance = new App());
+        public static App Instance => _instance ?? (_instance = new());
+
+        private static SDK.Generator _sdkGenerator;
+        public static SDK.Generator SdkGenerator => _sdkGenerator ?? (_sdkGenerator = new());
 
         #endregion
 
@@ -45,76 +47,40 @@ namespace NeoPolaris
 
         #region "Misc"
 
-        public UEngine GEngine { get; private set; }
-
-        public UGameplayEffect DefaultGameplayEffect { get; private set; }
-        public UClass GameplayEffectClass { get; private set; }
-
-        public UClass PawnClass { get; private set; }
-
-        public APlayerController CurrentPlayerController { get; private set; }
-        public UWorld CurrentWorld { get; private set; }
-
         public enum AppState
         {
             Idle,
             InGame
         }
 
-        public AppState State { get; private set; } = AppState.Idle;
+        public AppState State { get; private set; }
+        public bool Initialized { get; private set; }
 
-        public enum GameState
-        {
-            None,
-            Initialized
-        }
+        public UEngine GEngine { get; private set; }
 
-        public GameState Status { get; private set; } = GameState.None;
+        public UClass CurrentPawnClass { get; private set; }
+
+        public APlayerController CurrentPlayerController { get; private set; }
+        public UWorld CurrentWorld { get; private set; }
+
+        public USkeletalMesh CurrentSkeletalMesh { get; private set; }
+        public UFortAbilitySet CurrentAbilitySet { get; private set; }
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate IntPtr StaticLoadObjectDelegate(IntPtr objectClass, IntPtr inOuter, IntPtr inName, IntPtr fileName, uint loadFlags, IntPtr sandbox, bool bAllowObjectReconciliation);
+        public static StaticLoadObjectDelegate StaticLoadObject;
+
+        public static T LoadObject<T>(UClass objectClass, string name) where T : UObject, new()
+            => new T { BaseAddress = StaticLoadObject(objectClass.BaseAddress, IntPtr.Zero, new FString(name).Data, new FString(string.Empty).Data, 0, IntPtr.Zero, true) };
+
+        public static UObject FindOrLoadObject(string pathName)
+            => LoadObject<UObject>(Instance.Objects.FindObject<UClass>("Class /Script/CoreUObject.Object"), pathName);
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         public delegate void ProcessEventDelegate(IntPtr thisPtr, IntPtr func, IntPtr parms);
         public static ProcessEventDelegate ProcessEvent;
 
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        public delegate IntPtr StaticLoadObjectDelegate(IntPtr objectClass, IntPtr inOuter, IntPtr inName, IntPtr filename, uint loadFlags, IntPtr sandbox, bool bAllowObjectReconciliation);
-        public static StaticLoadObjectDelegate StaticLoadObject;
-
         #endregion
-
-        public static T LoadObject<T>(UClass objectClass, string name, string filename = "", uint loadFlags = 0) where T : UObject, new()
-            => new T { BaseAddress = StaticLoadObject(objectClass.BaseAddress, IntPtr.Zero, new FString(name).Data, new FString(filename).Data, loadFlags, IntPtr.Zero, true) };
-
-        public static UObject FindOrLoadObject(string pathName)
-            => LoadObject<UObject>(Instance.Objects.FindObject<UClass>("Class /Script/CoreUObject.Object"), pathName);
-
-        private static void ApplyGameplayAbilityToSelf(AFortPawn pawn, UClass ability)
-        {
-            if (Instance.DefaultGameplayEffect == null)
-            {
-                Instance.DefaultGameplayEffect = Instance.Objects.FindObject<UGameplayEffect>("GE_Athena_PurpleStuff_C /Game/Athena/Items/Consumables/PurpleStuff/GE_Athena_PurpleStuff.Default__GE_Athena_PurpleStuff_C");
-                if (Instance.DefaultGameplayEffect == null)
-                    Instance.DefaultGameplayEffect = Instance.Objects.FindObject<UGameplayEffect>("GE_Athena_PurpleStuff_Health_C /Game/Athena/Items/Consumables/PurpleStuff/GE_Athena_PurpleStuff_Health.Default__GE_Athena_PurpleStuff_Health_C");
-            }
-
-            Instance.DefaultGameplayEffect.GrantedAbilities[0].Ability = ability;
-            Instance.DefaultGameplayEffect.DurationPolicy = Abilities.Enums.EGameplayEffectDurationType.Infinite;
-
-            if (Instance.GameplayEffectClass == null)
-            {
-                Instance.GameplayEffectClass = Instance.Objects.FindObject<UClass>("BlueprintGeneratedClass /Game/Athena/Items/Consumables/PurpleStuff/GE_Athena_PurpleStuff.GE_Athena_PurpleStuff_C");
-                if (Instance.GameplayEffectClass == null)
-                    Instance.GameplayEffectClass = Instance.Objects.FindObject<UClass>("BlueprintGeneratedClass /Game/Athena/Items/Consumables/PurpleStuff/GE_Athena_PurpleStuff_Health.GE_Athena_PurpleStuff_Health_C");
-            }
-
-            Console.WriteLine($"Applying gameplay ability {ability.GetFullName()} to self...");
-
-            pawn.AbilitySystemComponent.BP_ApplyGameplayEffectToSelf(Instance.GameplayEffectClass, 1);
-
-            Console.WriteLine($"Applied gameplay ability {ability.GetFullName()} to self!");
-        }
-
-        private static USkeletalMesh _skeletalMesh;
-        private static UFortAbilitySet _abilitySet;
 
         private static void ProcessEventHook(IntPtr thisPtr, IntPtr func, IntPtr parms)
         {
@@ -135,7 +101,7 @@ namespace NeoPolaris
                         break;
 
                     case AppState.InGame:
-                        if (Instance.Status == GameState.None && funcName.Contains("ReadyToStartMatch"))
+                        if (!Instance.Initialized && funcName.Contains("ReadyToStartMatch"))
                         {
                             if (Instance.GEngine is UFortEngine fortEngine)
                             {
@@ -145,35 +111,35 @@ namespace NeoPolaris
                                 Console.WriteLine($"PlayerController = {Instance.CurrentPlayerController.GetFullName()}");
                             }
 
+                            Instance.CurrentPawnClass = Instance.Objects.FindObject<UClass>("BlueprintGeneratedClass /Game/Athena/PlayerPawn_Athena.PlayerPawn_Athena_C");
+
                             FindOrLoadObject("/Game/Athena/Items/Consumables/PurpleStuff/GE_Athena_PurpleStuff.GE_Athena_PurpleStuff_C");
 
-                            _skeletalMesh = Instance.Objects.FindObject<USkeletalMesh>("SkeletalMesh /Game/Characters/Survivors/Female/Small/F_SML_Starter_01/Meshes/F_SML_Starter_Epic.F_SML_Starter_Epic");
-                            _abilitySet = Instance.Objects.FindObject<UFortAbilitySet>("FortAbilitySet /Game/Abilities/Player/Generic/Traits/DefaultPlayer/GAS_DefaultPlayer.GAS_DefaultPlayer");
+                            Instance.CurrentSkeletalMesh = Instance.Objects.FindObject<USkeletalMesh>("SkeletalMesh /Game/Characters/Survivors/Female/Small/F_SML_Starter_01/Meshes/F_SML_Starter_Epic.F_SML_Starter_Epic");
+                            Instance.CurrentAbilitySet = Instance.Objects.FindObject<UFortAbilitySet>("FortAbilitySet /Game/Abilities/Player/Generic/Traits/DefaultPlayer/GAS_DefaultPlayer.GAS_DefaultPlayer");
 
-                            Instance.Status = GameState.Initialized;
+                            Instance.Initialized = true;
 
-                            Instance.PawnClass = Instance.Objects.FindObject<UClass>("BlueprintGeneratedClass /Game/Athena/PlayerPawn_Athena.PlayerPawn_Athena_C");
-
-                            var pawn = UGameplayStatics.SpawnActor<AFortPawn>(Instance.PawnClass, Instance.CurrentPlayerController.GetActorLocation(), Instance.CurrentPlayerController.GetActorRotation());
-                            pawn.Mesh.SetSkeletalMesh(_skeletalMesh, true);
+                            var pawn = UGameplayStatics.SpawnActor<AFortPawn>(Instance.CurrentPawnClass, Instance.CurrentPlayerController.GetActorLocation(), Instance.CurrentPlayerController.GetActorRotation());
+                            pawn.Mesh.SetSkeletalMesh(Instance.CurrentSkeletalMesh, true);
                             
                             Instance.CurrentPlayerController.Possess(pawn);
 
                             Instance.CurrentPlayerController.Cast<AFortPlayerController>().ServerReadyToStartMatch();
                             Instance.CurrentWorld.AuthorityGameMode.Cast<AGameMode>().StartMatch();
 
-                            for (var i = 0; i < _abilitySet.GameplayAbilities.Count; i++)
-                                ApplyGameplayAbilityToSelf(pawn, _abilitySet.GameplayAbilities[i]);
+                            for (var i = 0; i < Instance.CurrentAbilitySet.GameplayAbilities.Count; i++)
+                                pawn.AbilitySystemComponent.ApplyGameplayAbilityToSelf(Instance.CurrentAbilitySet.GameplayAbilities[i]);
                         }
-                        if (Instance.Status == GameState.Initialized && funcName.Contains("ServerAttemptAircraftJump"))
+                        if (Instance.Initialized && funcName.Contains("ServerAttemptAircraftJump"))
                         {
-                            var pawn = UGameplayStatics.SpawnActor<AFortPawn>(Instance.PawnClass, Instance.CurrentPlayerController.GetActorLocation(), Instance.CurrentPlayerController.GetActorRotation());
-                            pawn.Mesh.SetSkeletalMesh(_skeletalMesh, true);
+                            var pawn = UGameplayStatics.SpawnActor<AFortPawn>(Instance.CurrentPawnClass, Instance.CurrentPlayerController.GetActorLocation(), Instance.CurrentPlayerController.GetActorRotation());
+                            pawn.Mesh.SetSkeletalMesh(Instance.CurrentSkeletalMesh, true);
 
                             Instance.CurrentPlayerController.Possess(pawn);
 
-                            for (var i = 0; i < _abilitySet.GameplayAbilities.Count; i++)
-                                ApplyGameplayAbilityToSelf(pawn, _abilitySet.GameplayAbilities[i]);
+                            for (var i = 0; i < Instance.CurrentAbilitySet.GameplayAbilities.Count; i++)
+                                pawn.AbilitySystemComponent.ApplyGameplayAbilityToSelf(Instance.CurrentAbilitySet.GameplayAbilities[i]);
                         }
                         break;
                 }
@@ -198,23 +164,9 @@ namespace NeoPolaris
             );
             Objects = new ObjectStore(MemoryUtil.GetAddressFromOffset(objectsOffset, 7, 3));
 
+            //SdkGenerator.Generate();
+
             GEngine = Objects.FindObject<UFortEngine>("FortEngine /Engine/Transient.FortEngine_0");
-
-            var processEventAddress = MemoryUtil.FindPattern(
-                "\x40\x55\x56\x57\x41\x54\x41\x55\x41\x56\x41\x57\x48\x81\xEC\x00\x00\x00\x00\x48\x8D\x6C\x24\x00\x48\x89\x9D\x00\x00\x00\x00\x48\x8B\x05\x00\x00\x00\x00\x48\x33\xC5\x48\x89\x85\x00\x00\x00\x00\x48\x63\x41\x0C",
-                "xxxxxxxxxxxxxxx????xxxx?xxx????xxx????xxxxxx????xxxx"
-            );
-            //MinHook.CreateHook(processEventAddress, ProcessEventHook, out ProcessEvent);
-
-            var shit = Win32.GetModuleHandle(null) + 0x142E560;
-            StaticLoadObject = MemoryUtil.GetNativeFunc<StaticLoadObjectDelegate>(shit);
-
-            //var playGliderOpenSoundOffset = MemoryUtil.FindPattern("\xE9\x00\x00\x00\x00\x48\x8B\xCB\xB2\x01", "x????xxxxx");
-            //MinHook.CreateHook(MemoryUtil.GetAddressFromOffset(playGliderOpenSoundOffset), PlayGliderOpenSoundHook, out PlayGliderOpenSound);
-
-            //var soundUnk0Offset = MemoryUtil.FindPattern("\xE8\x00\x00\x00\x00\x49\x89\x46\x30\x48\x85\xC0", "x????xxxxxxx");
-            //MinHook.CreateHook(MemoryUtil.GetAddressFromOffset(soundUnk0Offset), SoundUnk0Hook, out SoundUnk0);
-
             if (GEngine is UFortEngine fortEngine)
             {
                 CurrentPlayerController = fortEngine.GameInstance.LocalPlayers[0].PlayerController;
@@ -223,10 +175,15 @@ namespace NeoPolaris
                 Console.WriteLine($"PlayerController = {CurrentPlayerController.GetFullName()}");
             }
 
-            var sdkGenerator = new SdkGenerator();
-            sdkGenerator.Generate();
+            StaticLoadObject = MemoryUtil.GetNativeFunc<StaticLoadObjectDelegate>(Win32.GetModuleHandle(null) + 0x142E560);
 
-            //MinHook.EnableAllHooks();
+            var processEventAddress = MemoryUtil.FindPattern(
+                "\x40\x55\x56\x57\x41\x54\x41\x55\x41\x56\x41\x57\x48\x81\xEC\x00\x00\x00\x00\x48\x8D\x6C\x24\x00\x48\x89\x9D\x00\x00\x00\x00\x48\x8B\x05\x00\x00\x00\x00\x48\x33\xC5\x48\x89\x85\x00\x00\x00\x00\x48\x63\x41\x0C",
+                "xxxxxxxxxxxxxxx????xxxx?xxx????xxx????xxxxxx????xxxx"
+            );
+            MinHook.CreateHook(processEventAddress, ProcessEventHook, out ProcessEvent);
+
+            MinHook.EnableAllHooks();
         }
     }
 }

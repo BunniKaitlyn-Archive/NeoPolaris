@@ -7,9 +7,9 @@ using System.Reflection;
 
 namespace NeoPolaris.SDK
 {
-    internal class SdkGenerator
+    internal class Generator
     {
-        public Dictionary<string, List<SdkClass>> Classes { get; } = new();
+        public Dictionary<string, List<SDK.Class>> Classes { get; } = new();
 
         private string[] GetIgnores()
         {
@@ -22,9 +22,9 @@ namespace NeoPolaris.SDK
             return types.ToArray();
         }
 
-        private SdkClass ProcessClass(UClass clazz)
+        private Class ProcessClass(UClass clazz)
         {
-            var sdkClass = new SdkClass();
+            var sdkClass = new SDK.Class();
 
             sdkClass.Namespace = clazz.Outer.GetName();
             sdkClass.ClassName = clazz.GetName(true);
@@ -69,7 +69,7 @@ namespace NeoPolaris.SDK
                     }
                 }
 
-                var builder = new SdkBuilder();
+                var builder = new CodeBuilder();
 
                 builder.SetNamespaceIndent();
 

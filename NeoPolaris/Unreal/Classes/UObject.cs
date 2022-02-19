@@ -1,4 +1,5 @@
 ﻿using NeoPolaris.Memory;
+using NeoPolaris.Unreal.Stores;
 using NeoPolaris.Unreal.Structs;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,8 @@ namespace NeoPolaris.Unreal.Classes
         private static Dictionary<string, UObject> _cachedObjects = new();
         private static Dictionary<string, int> _cachedOffsets = new();
 
+        public ObjectStore Objects => App.Instance.Objects;
+
         public IntPtr VTable => ReadIntPtr(0);
         public int ObjectFlags => ReadInt32(8);
         public int InternalIndex => ReadInt32(0xC);
@@ -27,12 +30,12 @@ namespace NeoPolaris.Unreal.Classes
         public T Cast<T>() where T : UObject, new()
             => new T { BaseAddress = this.BaseAddress };
 
-        public bool IsA(string name, bool isClass = false)
+        public bool IsA(string name, bool isSelfClass = false)
         {
             if (Class == null)
                 return false;
 
-            var clazz = isClass ? Cast<UClass>() : Class;
+            var clazz = isSelfClass ? Cast<UClass>() : Class;
             do
             {
                 if (clazz == null)
@@ -48,8 +51,8 @@ namespace NeoPolaris.Unreal.Classes
             return false;
         }
 
-        public bool IsA<T>(bool isClass = false)
-            => IsA(typeof(T).Name.TrimStart(new[] { 'F', 'A', 'U' }), isClass);
+        public bool IsA<T>(bool isSelfClass = false)
+            => IsA(typeof(T).Name.TrimStart(new[] { 'F', 'A', 'U' }), isSelfClass);
 
         public string GetPrefix()
         {
