@@ -58,10 +58,10 @@ namespace NeoPolaris
 
         public UEngine GEngine { get; private set; }
 
-        public UClass CurrentPawnClass { get; private set; }
-
         public APlayerController CurrentPlayerController { get; private set; }
         public UWorld CurrentWorld { get; private set; }
+
+        public UClass CurrentPawnClass { get; private set; }
 
         public USkeletalMesh CurrentSkeletalMesh { get; private set; }
         public UFortAbilitySet CurrentAbilitySet { get; private set; }
