@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Reality.ModLoader;
+using System;
 
 namespace NeoPolaris.Unreal.Classes
 {
@@ -7,7 +8,7 @@ namespace NeoPolaris.Unreal.Classes
         public void StartMatch()
         {
             var func = FindObject("Function /Script/Engine.GameMode.StartMatch");
-            App.ProcessEvent(BaseAddress, func.BaseAddress, IntPtr.Zero);
+            Loader.ProcessEvent(BaseAddress, func.BaseAddress, IntPtr.Zero);
         }
     }
 }

@@ -2,6 +2,6 @@
 {
     internal class ACharacter : APawn
     {
-        public USkeletalMeshComponent Mesh => GetProperty<USkeletalMeshComponent>("ObjectProperty /Script/Engine.Character.Mesh");
+        public USkeletalMeshComponent Mesh => FindProperty<USkeletalMeshComponent>("ObjectProperty /Script/Engine.Character.Mesh");
     }
 }

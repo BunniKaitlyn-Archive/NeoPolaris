@@ -1,4 +1,4 @@
-﻿using NeoPolaris.Unreal.Classes;
+﻿using Reality.ModLoader.Unreal.CoreUObject;
 
 namespace NeoPolaris.Unreal.Misc
 {

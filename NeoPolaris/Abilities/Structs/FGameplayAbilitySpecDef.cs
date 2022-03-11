@@ -1,5 +1,6 @@
-﻿using NeoPolaris.Memory;
-using NeoPolaris.Unreal.Classes;
+﻿using Reality.ModLoader;
+using Reality.ModLoader.Memory;
+using Reality.ModLoader.Unreal.CoreUObject;
 
 namespace NeoPolaris.Abilities.Structs
 {
@@ -7,8 +8,8 @@ namespace NeoPolaris.Abilities.Structs
     {
         public UClass Ability
         {
-            get => ReadStruct<UClass>(App.Instance.Objects.GetProperty("ClassProperty /Script/GameplayAbilities.GameplayAbilitySpecDef.Ability"));
-            set => WriteIntPtr(App.Instance.Objects.GetProperty("ClassProperty /Script/GameplayAbilities.GameplayAbilitySpecDef.Ability"), value.BaseAddress);
+            get => ReadStruct<UClass>(Loader.Instance.Objects.FindProperty("ClassProperty /Script/GameplayAbilities.GameplayAbilitySpecDef.Ability"));
+            set => WriteIntPtr(Loader.Instance.Objects.FindProperty("ClassProperty /Script/GameplayAbilities.GameplayAbilitySpecDef.Ability"), value.BaseAddress);
         }
 
         public override int ObjectSize => 0x50;

@@ -1,5 +1,5 @@
-﻿using NeoPolaris.Memory;
-using System.Runtime.InteropServices;
+﻿using Reality.ModLoader.Memory;
+using Reality.ModLoader.Unreal.Core;
 
 namespace NeoPolaris.Unreal.Structs
 {
@@ -25,7 +25,7 @@ namespace NeoPolaris.Unreal.Structs
 
         public FVector()
         {
-            BaseAddress = Marshal.AllocHGlobal(ObjectSize);
+            BaseAddress = FMemory.Malloc(ObjectSize, 0);
         }
 
         public override int ObjectSize => 0xC;

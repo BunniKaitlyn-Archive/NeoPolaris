@@ -1,4 +1,5 @@
 ﻿using NeoPolaris.Unreal.Classes;
+using Reality.ModLoader;
 using System;
 
 namespace NeoPolaris.Fortnite.Classes
@@ -7,18 +8,14 @@ namespace NeoPolaris.Fortnite.Classes
     {
         public AFortQuickBars QuickBars
         {
-            get => GetProperty<AFortQuickBars>("ObjectProperty /Script/FortniteGame.FortPlayerController.QuickBars");
-            set
-            {
-                var offset = GetProperty("ObjectProperty /Script/FortniteGame.FortPlayerController.QuickBars");
-                WriteIntPtr(offset, value.BaseAddress);
-            }
+            get => FindProperty<AFortQuickBars>("ObjectProperty /Script/FortniteGame.FortPlayerController.QuickBars");
+            set => WriteIntPtr(FindProperty("ObjectProperty /Script/FortniteGame.FortPlayerController.QuickBars"), value.BaseAddress);
         }
 
         public void ServerReadyToStartMatch()
         {
             var func = FindObject("Function /Script/FortniteGame.FortPlayerController.ServerReadyToStartMatch");
-            App.ProcessEvent(BaseAddress, func.BaseAddress, IntPtr.Zero);
+            Loader.ProcessEvent(BaseAddress, func.BaseAddress, IntPtr.Zero);
         }
     }
 }

@@ -2,6 +2,6 @@
 {
     internal class UGameEngine : UEngine
     {
-        public UGameInstance GameInstance => GetProperty<UGameInstance>("ObjectProperty /Script/Engine.GameEngine.GameInstance");
+        public UGameInstance GameInstance => FindProperty<UGameInstance>("ObjectProperty /Script/Engine.GameEngine.GameInstance");
     }
 }

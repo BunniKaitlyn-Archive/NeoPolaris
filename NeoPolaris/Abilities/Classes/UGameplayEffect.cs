@@ -1,7 +1,7 @@
 ﻿using NeoPolaris.Abilities.Enums;
 using NeoPolaris.Abilities.Structs;
-using NeoPolaris.Unreal.Classes;
-using NeoPolaris.Unreal.Structs;
+using Reality.ModLoader.Unreal.Core;
+using Reality.ModLoader.Unreal.CoreUObject;
 
 namespace NeoPolaris.Abilities.Classes
 {
@@ -13,6 +13,6 @@ namespace NeoPolaris.Abilities.Classes
             set => Memory.WriteUInt8(BaseAddress, 0x30, (byte) value);
         }
 
-        public TArray<FGameplayAbilitySpecDef> GrantedAbilities => GetProperty<TArray<FGameplayAbilitySpecDef>>("ArrayProperty /Script/GameplayAbilities.GameplayEffect.GrantedAbilities", false).SetIsPtr(false);
+        public TArray<FGameplayAbilitySpecDef> GrantedAbilities => FindProperty<TArray<FGameplayAbilitySpecDef>>("ArrayProperty /Script/GameplayAbilities.GameplayEffect.GrantedAbilities", isPtr: false).IsPtr(false);
     }
 }

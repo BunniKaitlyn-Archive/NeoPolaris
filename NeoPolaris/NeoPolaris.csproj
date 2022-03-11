@@ -25,7 +25,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
-    <DocumentationFile>bin\Debug\Polaris.xml</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -35,13 +36,16 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
-    <DocumentationFile>bin\Release\Polaris.xml</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Reality.ModLoader">
+      <HintPath>..\..\..\..\Fortnite\Builds\4.16.0-3724489+++Fortnite+Release-Live\FortniteGame\Binaries\Win64\Reality.ModLoader.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abilities\Classes\UAbilitySystemComponent.cs" />
@@ -49,23 +53,14 @@
     <Compile Include="Abilities\Enums\EGameplayEffectDurationType.cs" />
     <Compile Include="Abilities\Structs\FGameplayAbilitySpecDef.cs" />
     <Compile Include="Abilities\Structs\FActiveGameplayEffectHandle.cs" />
-    <Compile Include="App.cs" />
     <Compile Include="Fortnite\Classes\AFortPawn.cs" />
     <Compile Include="Fortnite\Classes\AFortPlayerController.cs" />
     <Compile Include="Fortnite\Classes\AFortQuickBars.cs" />
     <Compile Include="Fortnite\Classes\UFortAbilitySet.cs" />
     <Compile Include="Fortnite\Classes\UFortAbilitySystemComponent.cs" />
     <Compile Include="Fortnite\Classes\UFortEngine.cs" />
-    <Compile Include="Loader.cs" />
-    <Compile Include="Memory\IMemory.cs" />
-    <Compile Include="Memory\InternalMemory.cs" />
-    <Compile Include="Memory\MemoryObject.cs" />
     <Compile Include="ObfuscationSettings.cs" />
-    <Compile Include="Utilities\MemoryUtil.cs" />
-    <Compile Include="SDK\Class.cs" />
-    <Compile Include="SDK\CodeBuilder.cs" />
-    <Compile Include="SDK\Generator.cs" />
-    <Compile Include="SDK\Property.cs" />
+    <Compile Include="Plugin.cs" />
     <Compile Include="Tasks\Classes\UGameplayTasksComponent.cs" />
     <Compile Include="Unreal\Classes\AActor.cs" />
     <Compile Include="Unreal\Classes\ACharacter.cs" />
@@ -75,7 +70,6 @@
     <Compile Include="Unreal\Classes\AInfo.cs" />
     <Compile Include="Unreal\Classes\APawn.cs" />
     <Compile Include="Unreal\Classes\APlayerController.cs" />
-    <Compile Include="Unreal\Properties.cs" />
     <Compile Include="Unreal\Classes\UMeshComponent.cs" />
     <Compile Include="Unreal\Classes\UActorComponent.cs" />
     <Compile Include="Unreal\Classes\UDataAsset.cs" />
@@ -98,25 +92,8 @@
     <Compile Include="Unreal\Misc\UGameplayStatics.cs" />
     <Compile Include="Unreal\Structs\FRotator.cs" />
     <Compile Include="Unreal\Structs\FVector.cs" />
-    <Compile Include="Unreal\Structs\TArray.cs" />
-    <Compile Include="Utilities\IPlugin.cs" />
-    <Compile Include="Natives\MinHook.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Unreal\Classes\UClass.cs" />
-    <Compile Include="Unreal\Classes\UProperty.cs" />
-    <Compile Include="Unreal\Classes\UField.cs" />
-    <Compile Include="Unreal\Classes\UObject.cs" />
-    <Compile Include="Unreal\Classes\UStruct.cs" />
-    <Compile Include="Unreal\Stores\ObjectStore.cs" />
-    <Compile Include="Unreal\Structs\FName.cs" />
-    <Compile Include="Unreal\Structs\FString.cs" />
-    <Compile Include="Stores\DelegateStore.cs" />
-    <Compile Include="Utilities\ResourceUtil.cs" />
-    <Compile Include="Utilities\Win32.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Natives\MinHook.x64.dll" />
-    <EmbeddedResource Include="Natives\MinHook.x86.dll" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -2,6 +2,6 @@
 {
     internal class UGameViewportClient : UScriptViewportClient
     {
-        public UWorld World => GetProperty<UWorld>("ObjectProperty /Script/Engine.GameViewportClient.World");
+        public UWorld World => FindProperty<UWorld>("ObjectProperty /Script/Engine.GameViewportClient.World");
     }
 }

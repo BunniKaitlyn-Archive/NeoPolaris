@@ -1,9 +1,9 @@
 ﻿using NeoPolaris.Abilities.Enums;
 using NeoPolaris.Abilities.Structs;
 using NeoPolaris.Tasks.Classes;
-using NeoPolaris.Unreal.Classes;
-using NeoPolaris.Utilities;
-using System.Runtime.InteropServices;
+using Reality.ModLoader;
+using Reality.ModLoader.Unreal.Core;
+using Reality.ModLoader.Unreal.CoreUObject;
 
 namespace NeoPolaris.Abilities.Classes
 {
@@ -15,11 +15,10 @@ namespace NeoPolaris.Abilities.Classes
         public FActiveGameplayEffectHandle BP_ApplyGameplayEffectToSelf(UClass gameplayEffectClass, float level)
         {
             var func = FindObject("Function /Script/GameplayAbilities.AbilitySystemComponent.BP_ApplyGameplayEffectToSelf");
-            var ptr = Marshal.AllocHGlobal(0x50);
-            Win32.RtlFillMemory(ptr, 0x50, 0);
+            var ptr = FMemory.Malloc(0x50, 0);
             Memory.WriteIntPtr(ptr, 0, gameplayEffectClass.BaseAddress);
             Memory.WriteSingle(ptr, 8, level);
-            App.ProcessEvent(BaseAddress, func.BaseAddress, ptr);
+            Loader.ProcessEvent(BaseAddress, func.BaseAddress, ptr);
             return Memory.ReadStruct<FActiveGameplayEffectHandle>(ptr, 0x24, false);
         }
 

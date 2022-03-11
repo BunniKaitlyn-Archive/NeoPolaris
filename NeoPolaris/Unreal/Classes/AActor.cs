@@ -1,5 +1,7 @@
 ﻿using NeoPolaris.Unreal.Structs;
-using System.Runtime.InteropServices;
+using Reality.ModLoader;
+using Reality.ModLoader.Unreal.Core;
+using Reality.ModLoader.Unreal.CoreUObject;
 
 namespace NeoPolaris.Unreal.Classes
 {
@@ -8,16 +10,16 @@ namespace NeoPolaris.Unreal.Classes
         public FRotator GetActorRotation()
         {
             var func = FindObject("Function /Script/Engine.Actor.K2_GetActorRotation");
-            var ptr = Marshal.AllocHGlobal(0xC);
-            App.ProcessEvent(BaseAddress, func.BaseAddress, ptr);
+            var ptr = FMemory.Malloc(0xC, 0);
+            Loader.ProcessEvent(BaseAddress, func.BaseAddress, ptr);
             return new FRotator { BaseAddress = ptr };
         }
 
         public FVector GetActorLocation()
         {
             var func = FindObject("Function /Script/Engine.Actor.K2_GetActorLocation");
-            var ptr = Marshal.AllocHGlobal(0xC);
-            App.ProcessEvent(BaseAddress, func.BaseAddress, ptr);
+            var ptr = FMemory.Malloc(0xC, 0);
+            Loader.ProcessEvent(BaseAddress, func.BaseAddress, ptr);
             return new FVector { BaseAddress = ptr };
         }
     }

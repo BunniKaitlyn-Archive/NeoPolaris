@@ -1,4 +1,4 @@
-﻿using NeoPolaris.Memory;
+﻿using Reality.ModLoader.Memory;
 
 namespace NeoPolaris.Abilities.Structs
 {

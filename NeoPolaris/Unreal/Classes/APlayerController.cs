@@ -1,4 +1,5 @@
-﻿using NeoPolaris.Unreal.Structs;
+﻿using Reality.ModLoader;
+using Reality.ModLoader.Unreal.Core;
 
 namespace NeoPolaris.Unreal.Classes
 {
@@ -7,7 +8,7 @@ namespace NeoPolaris.Unreal.Classes
         public void SwitchLevel(string url)
         {
             var func = FindObject("Function /Script/Engine.PlayerController.SwitchLevel");
-            App.ProcessEvent(BaseAddress, func.BaseAddress, new FString(url).BaseAddress);
+            Loader.ProcessEvent(BaseAddress, func.BaseAddress, new FString(url).BaseAddress);
         }
     }
 }
